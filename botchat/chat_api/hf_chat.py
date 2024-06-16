@@ -86,7 +86,7 @@ class HFChatModel:
 
         device = self.explicit_device if self.explicit_device else "auto"
         self.tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
-        model = LoadModel.from_pretrained(model_path, trust_remote_code=True, device_map='cpu')
+        model = LoadModel.from_pretrained(model_path, trust_remote_code=True, device_map='cuda:0')
         if device != 'cpu':
             model = model.to(f'cuda:{device}' if isinstance(device, int) else 'cuda')
         try:
