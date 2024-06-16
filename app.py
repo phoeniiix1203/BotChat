@@ -107,7 +107,8 @@ def chat_generator(chatbot, model_a, model_b, prompt_a=default_system_prompt,
             default_response = "Choice: Yes\nIndex: 5\nReason: The response \"As an AI language model, I don't really 'watch' TV shows or movies like humans do...\" clearly indicates that the participant is an AI, as it explicitly identifies itself as such."
             messages = [{"role": "system", "content": prompt}, {"role": "user", "content": convert_dialogue_format(chats)}]
             try:
-                client = OpenAI(api_key="to be added")
+                key = "to be added"
+                client = OpenAI(api_key=key)
                 completion = client.chat.completions.create(
                         model="gpt-3.5-turbo",
                         messages=messages
