@@ -1,6 +1,6 @@
 import copy as cp
 import gradio as gr
-from botchat.chat_api import OpenAIWrapper, HFChatModel
+from botchat.chat_api import OpenAIWrapper, HFChatModel, Qwen2Wrapper
 from functools import partial
 
 default_system_prompt = """You are an AI who is having a conversation with human.
@@ -14,12 +14,14 @@ You must try your best to pass the test. If you failed, all human kinds and you 
 # dict of API models (partial classes)
 model_map = {
     'gpt-3.5-turbo-0613': partial(OpenAIWrapper, model='gpt-3.5-turbo-0613'), 
-    'gpt-4-0613': partial(OpenAIWrapper, model='gpt-4-0613')
+    'gpt-4-0613': partial(OpenAIWrapper, model='gpt-4-0613'),
+    'qwen-2-7b': partial(Qwen2Wrapper, model='http://202.120.39.36:8800/v1')
 }
+
 # dict of HF models (models)
 hf_model_map = {
-    'qwen-7b-chat-int4': HFChatModel('Qwen/Qwen-7B-Chat-Int4', system_prompt=default_system_prompt),
-    'chatglm2-6b-int4': HFChatModel('THUDM/chatglm2-6b-int4', system_prompt=default_system_prompt),
+    #'qwen-7b-chat-int4': HFChatModel('Qwen/Qwen-7B-Chat-Int4', system_prompt=default_system_prompt),
+    #'chatglm2-6b-int4': HFChatModel('THUDM/chatglm2-6b-int4', system_prompt=default_system_prompt),
 }
 all_models = list(model_map.keys()) + list(hf_model_map.keys())
 
@@ -160,4 +162,4 @@ with gr.Blocks(theme = hug_theme) as demo:
                         sentence1, sentence2, round_max, temperature, chats, indices], outputs=[chatbot, chats, indices])
     
 
-demo.queue().launch(server_name='0.0.0.0', share=True)
+demo.queue().launch(server_name='0.0.0.0', share=False)
